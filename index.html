@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PyCam</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            font-weight: bold;
+            background: #FFFBDA;
+        }
+
+        p {
+            font-size: 25px;
+            font-weight: bold;
+            color: #141E46;
+        }
+
+    </style>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const websocket = new WebSocket('ws://localhost:8000/')
+            const element = document.getElementById('mouse-pos')
+
+            document.addEventListener('click', () => {
+                websocket.send(element.textContent)
+            })
+
+            websocket.onmessage = ({data}) => {
+                element.textContent = data
+            };
+        });
+    </script>
+
+</head>
+
+<body>
+    <p>Current Mouse Position: </p>
+    <p id="mouse-pos"></p>
+</body>
+
+</html>
