@@ -4,8 +4,17 @@ from os import path
 import cv2
 import pyautogui
 import websockets
+# import sqlite3
 
 CAMERA_PORT = 0
+
+# connection = sqlite3.connect('Photoes.db')
+# print(connection.total_changes)
+# cursor = connection.cursor()
+
+# def create_db():
+#     cursor.execute('CREATE TABLE IF NOT EXISTS Photoes (id INTEGER, coords TEXT NOT NULL, image BLOB NOT NULL)')
+#     connection.commit()
 
 
 def get_mouse_coords():
@@ -37,7 +46,9 @@ async def on_mouse_click(websocket):
         path_join = path.join(__file__, f'image/{datetime.now().isoformat()}.png')
         photo = capture_image(path_join, CAMERA_PORT)
         print(f'Image captured to path {path_join}')
-        #TODO: save coords to DB
+        # cursor.execute('INSERT INTO Photoes VALUES (?, ?), (data, photo)')
+        # connection.commit()
+        # connection.close()
         await asyncio.sleep(0.01)
 
 
@@ -49,6 +60,7 @@ async def service(websocket):
 
 
 def main():
+    # create_db()
     start_server = websockets.serve(service, 'localhost', 8000)
     print(f'Websocket server started at http://localhost:8000')
 
